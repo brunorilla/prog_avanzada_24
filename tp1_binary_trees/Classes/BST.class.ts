@@ -1,5 +1,7 @@
 import './BSTnode.class'
 import {BstNode} from "./BSTnode.class";
+import {performance} from 'perf_hooks';
+
 export class BST {
   root: BstNode | null = null;
 
@@ -13,12 +15,13 @@ export class BST {
       return Math.max(leftHeight, rightHeight) + 1;
     }
   }
-  insert(value: number) {
+
+  insert(value: number, allowDuplicates: boolean = false) {
     const newNode = new BstNode(value);
 
     if (this.root === null) {
       this.root = newNode;
-    } else if (!this.exists(this.root, value)) {
+    } else if (allowDuplicates || !this.exists(this.root, value)) {
       this.insertNode(this.root, newNode);
     } else {
       console.log(`El valor ${value} ya existe en el árbol.`);
@@ -42,28 +45,43 @@ export class BST {
   }
 
   getHeight(): number {
-    return this.calculateHeight(this.root);
+    const result = this.calculateHeight(this.root)
+    console.log(`++++++++++\nLa altura del BST es: ${result}\n++++++++++`)
+    return result
   }
 
 
+  exists(node: BstNode | null, value: number, logPerformance: boolean = false): boolean {
+    let startTime: number;
 
-  exists(node: BstNode | null, value: number): boolean {
-    if (node === null) {
-      return false;
-    } else if (value === node.value) {
-      return true;
-    } else if (value < node.value) {
-      return this.exists(node.left, value);
-    } else {
-      return this.exists(node.right, value);
+    if (logPerformance) {
+      console.log('\n*********\nResultado de búsqueda de valor\n*********')
+      startTime = performance.now();  // Iniciar timer
     }
+
+    let result = false;
+    while (node !== null) {
+      if (value < node.value) {
+        node = node.left;
+      } else if (value > node.value) {
+        node = node.right;
+      } else {
+        result = true;
+        break;
+      }
+    }
+
+    if (result && logPerformance) console.log(`El valor [${value}] se encontró en el BST`)
+    if (!result && logPerformance) console.log(`El valor [${value}] no se encontró en el BST`)
+
+    if (logPerformance) {
+      const endTime = performance.now(); // finalizar timer
+      console.log('·············')
+      console.log(`Tiempo de búsqueda para ${value}: ${endTime - startTime} milisegundos`);
+      console.log('·············')
+    }
+
+    return result;
   }
 
-  inOrderTraverse(node: BstNode | null = this.root): void {
-    if (node !== null) {
-      this.inOrderTraverse(node.left);
-      console.log(node.value);
-      this.inOrderTraverse(node.right);
-    }
-  }
 }

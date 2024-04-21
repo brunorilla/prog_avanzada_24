@@ -1,15 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateLargeDisorderedArray = void 0;
-function generateLargeDisorderedArray(size) {
+exports.sortArray = exports.generateOrderedArray = exports.generateConstrainedDisorderedArray = void 0;
+function generateConstrainedDisorderedArray(size, multiplier) {
     var _a;
+    if (multiplier === void 0) { multiplier = 10; }
     var array = [];
-    // Llenar el array con números del 1 al size - 1
-    for (var i = 1; i < size; i++) {
-        array.push(i);
+    var maxValue = size * multiplier; // Define el valor máximo como un múltiplo de `size`.
+    // Llenar el array con números consecutivos comenzando desde un número base hasta base+size-2
+    var baseNumber = Math.floor(Math.random() * (maxValue - size + 1)); // Asegurar que hay espacio para `size` números consecutivos.
+    for (var i = 0; i < size - 1; i++) {
+        array.push(baseNumber + i);
     }
     // Agregar un número repetido al azar
-    var repeatedNumber = Math.floor(Math.random() * (size - 1)) + 1;
+    var repeatedNumber = array[Math.floor(Math.random() * (array.length))];
     array.push(repeatedNumber);
     // Mezclar el array para desordenarlo
     for (var i = array.length - 1; i > 0; i--) {
@@ -18,4 +21,16 @@ function generateLargeDisorderedArray(size) {
     }
     return array;
 }
-exports.generateLargeDisorderedArray = generateLargeDisorderedArray;
+exports.generateConstrainedDisorderedArray = generateConstrainedDisorderedArray;
+function generateOrderedArray(size) {
+    var array = [];
+    for (var i = 0; i < size; i++) {
+        array.push(i);
+    }
+    return array;
+}
+exports.generateOrderedArray = generateOrderedArray;
+function sortArray(numbers) {
+    return numbers.sort(function (a, b) { return a - b; });
+}
+exports.sortArray = sortArray;

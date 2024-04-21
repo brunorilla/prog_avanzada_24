@@ -1,13 +1,15 @@
-export function generateLargeDisorderedArray(size: number): number[] {
+export function generateConstrainedDisorderedArray(size: number, multiplier: number = 10): number[] {
   const array: number[] = [];
+  const maxValue = size * multiplier; // Define el valor máximo como un múltiplo de `size`.
 
-  // Llenar el array con números del 1 al size - 1
-  for (let i = 1; i < size; i++) {
-    array.push(i);
+  // Llenar el array con números consecutivos comenzando desde un número base hasta base+size-2
+  let baseNumber = Math.floor(Math.random() * (maxValue - size + 1)); // Asegurar que hay espacio para `size` números consecutivos.
+  for (let i = 0; i < size - 1; i++) {
+    array.push(baseNumber + i);
   }
 
   // Agregar un número repetido al azar
-  const repeatedNumber = Math.floor(Math.random() * (size - 1)) + 1;
+  const repeatedNumber = array[Math.floor(Math.random() * (array.length))];
   array.push(repeatedNumber);
 
   // Mezclar el array para desordenarlo
@@ -18,3 +20,19 @@ export function generateLargeDisorderedArray(size: number): number[] {
 
   return array;
 }
+
+export function generateOrderedArray(size: number): number[] {
+  let array: number[] = [];
+
+  for (let i = 0; i < size; i++) {
+    array.push(i);
+  }
+
+  return array;
+}
+
+export function sortArray(numbers: number[]): number[] {
+  return numbers.sort((a, b) => a - b);
+}
+
+
