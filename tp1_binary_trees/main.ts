@@ -21,12 +21,13 @@ console.log("3)  Obtener la altura del Binary Search Tree")
 bst.getHeight()
 
 // 4) Determino el tiempo que le lleva la búsqueda de un elemento no existente:
-console.log(" 4) Determino el tiempo que le lleva la búsqueda de un elemento no existente:")
-bst.exists(bst.root, 84, true)
+console.log("4) Determino el tiempo que le lleva la búsqueda de un elemento no existente:")
+bst.exists(bst.root, 1400, true)
 
 
 // 5) Inserto la misma muestra de modo ordenado y hago la búsqueda de un elemento no existente:
 // A) Ordeno la muestra:
+console.log("\n+++++++++ Consigna número 5 +++++++++\n")
 const orderedArray = sortArray(largeDisorderedArray)
 console.log(`Muestra anterior ordenada: ${orderedArray}`)
 // Creo un nuevo BST e inserto la muestra ordenada
@@ -36,7 +37,7 @@ orderedArray.forEach(value => {
 });
 
 // B)
-console.log("Busco un elemento no existente de la muestra ordenada y logueo el tiempo de búsqueda")
+console.log("\n++++++\nBusco un elemento no existente de la muestra ordenada y logueo el tiempo de búsqueda")
 bst2.exists(bst2.root, 1400, true)
 
 
